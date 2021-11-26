@@ -15,33 +15,46 @@ FramePerSec = pygame.time.Clock()
 displaysurface = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Game")
 
-class Player(pygame.sprite.Sprite):
-    def __init__(self):
+class Segmento(pygame.sprite.Sprite):
+    def __init__(self,x,y):
         super().__init__() 
+        self.x = x
+        self.y = y
         self.surf = pygame.Surface((30, 30))
         self.surf.fill((128,255,40))
-        self.rect = self.surf.get_rect(center = (10, 420))
- 
-class platform(pygame.sprite.Sprite):
-    def __init__(self):
-        super().__init__()
-        self.surf = pygame.Surface((WIDTH, 20))
-        self.surf.fill((255,0,0))
-        self.rect = self.surf.get_rect(center = (WIDTH/2, HEIGHT - 10))
- 
-PT1 = platform()
-P1 = Player()
+        self.rect = self.surf.get_rect(topleft=(x*30, y*30))
 
+ 
+
+snake = [Segmento(x,10) for x in range(8,18)]
 
 all_sprites = pygame.sprite.Group()
-all_sprites.add(PT1)
-all_sprites.add(P1)
+for s in snake:
+    all_sprites.add(s)
+
  
 while True:
     for event in pygame.event.get():
         if event.type == QUIT:
             pygame.quit()
             sys.exit()
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_UP:
+                snake = [Segmento(snake[0].x,snake[0].y-1)] + snake
+                all_sprites.add(snake[0])
+                all_sprites.remove(snake.pop(-1))
+            elif event.key == pygame.K_DOWN:
+                snake = [Segmento(snake[0].x,snake[0].y+1)] + snake
+                all_sprites.add(snake[0])
+                all_sprites.remove(snake.pop(-1))
+            elif event.key == pygame.K_RIGHT:
+                snake = [Segmento(snake[0].x+1,snake[0].y)] + snake
+                all_sprites.add(snake[0])
+                all_sprites.remove(snake.pop(-1))
+            elif event.key == pygame.K_LEFT:
+                snake = [Segmento(snake[0].x-1,snake[0].y)] + snake
+                all_sprites.add(snake[0])
+                all_sprites.remove(snake.pop(-1))
      
     displaysurface.fill((0,0,0))
  
@@ -50,3 +63,13 @@ while True:
  
     pygame.display.update()
     FramePerSec.tick(FPS)
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
