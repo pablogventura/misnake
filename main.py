@@ -53,13 +53,16 @@ def avanzar(d):
         snake = [Segmento(snake[0].x-1,snake[0].y)] + snake
         all_sprites.add(snake[0])
         all_sprites.remove(snake.pop(-1))
+    xys = {(s.x,s.y) for s in snake}
+    if len(xys) < len(snake):
+        print("Perdiste")
+        assert False
 
 
  
 while True:
     for event in pygame.event.get():
         if event.type == pygame.USEREVENT: 
-            print("timer")
             avanzar(direccion)
         elif event.type == QUIT:
             pygame.quit()
