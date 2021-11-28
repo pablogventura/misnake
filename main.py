@@ -9,7 +9,7 @@ WIDTH = 640
 ACC = 0.5
 FRIC = -0.12
 FPS = 60
- 
+pygame.time.set_timer(pygame.USEREVENT, 1000)
 FramePerSec = pygame.time.Clock()
  
 displaysurface = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -32,29 +32,47 @@ all_sprites = pygame.sprite.Group()
 for s in snake:
     all_sprites.add(s)
 
+direccion ="l"
+
+def avanzar(d):
+    global snake
+    global all_sprites
+    if d=="u":
+        snake = [Segmento(snake[0].x,snake[0].y-1)] + snake
+        all_sprites.add(snake[0])
+        all_sprites.remove(snake.pop(-1))
+    elif d=="d":
+        snake = [Segmento(snake[0].x,snake[0].y+1)] + snake
+        all_sprites.add(snake[0])
+        all_sprites.remove(snake.pop(-1))
+    elif d=="r":
+        snake = [Segmento(snake[0].x+1,snake[0].y)] + snake
+        all_sprites.add(snake[0])
+        all_sprites.remove(snake.pop(-1))
+    elif d=="l":
+        snake = [Segmento(snake[0].x-1,snake[0].y)] + snake
+        all_sprites.add(snake[0])
+        all_sprites.remove(snake.pop(-1))
+
+
  
 while True:
     for event in pygame.event.get():
-        if event.type == QUIT:
+        if event.type == pygame.USEREVENT: 
+            print("timer")
+            avanzar(direccion)
+        elif event.type == QUIT:
             pygame.quit()
             sys.exit()
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_UP:
-                snake = [Segmento(snake[0].x,snake[0].y-1)] + snake
-                all_sprites.add(snake[0])
-                all_sprites.remove(snake.pop(-1))
+                direccion = "u"
             elif event.key == pygame.K_DOWN:
-                snake = [Segmento(snake[0].x,snake[0].y+1)] + snake
-                all_sprites.add(snake[0])
-                all_sprites.remove(snake.pop(-1))
+                direccion = "d"
             elif event.key == pygame.K_RIGHT:
-                snake = [Segmento(snake[0].x+1,snake[0].y)] + snake
-                all_sprites.add(snake[0])
-                all_sprites.remove(snake.pop(-1))
+                direccion = "r"
             elif event.key == pygame.K_LEFT:
-                snake = [Segmento(snake[0].x-1,snake[0].y)] + snake
-                all_sprites.add(snake[0])
-                all_sprites.remove(snake.pop(-1))
+                direccion = "l"
      
     displaysurface.fill((0,0,0))
  
