@@ -65,13 +65,13 @@ while True:
             pygame.quit()
             sys.exit()
         elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_UP:
+            if event.key == pygame.K_UP and direccion != "d":
                 direccion = "u"
-            elif event.key == pygame.K_DOWN:
+            elif event.key == pygame.K_DOWN and direccion != "u":
                 direccion = "d"
-            elif event.key == pygame.K_RIGHT:
+            elif event.key == pygame.K_RIGHT and direccion != "l":
                 direccion = "r"
-            elif event.key == pygame.K_LEFT:
+            elif event.key == pygame.K_LEFT and direccion != "r":
                 direccion = "l"
      
     displaysurface.fill((0,0,0))
